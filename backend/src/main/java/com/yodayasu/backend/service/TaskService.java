@@ -7,6 +7,7 @@ import com.yodayasu.backend.entity.UserEntity;
 import com.yodayasu.backend.exception.TaskNotFoundException;
 import com.yodayasu.backend.repository.TaskRepository;
 import com.yodayasu.backend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,9 +53,15 @@ public class TaskService {
         return toResponse(task);
     }
 
-    public  TaskResponse create(TaskForm form) {
-        UserEntity user = userRepository.findById(1L)
-                .orElseThrow();
+    public  TaskResponse create(TaskForm form, String username) {
+//        UserEntity user = userRepository.findById()
+//                .orElseThrow();
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                username + " is not found"
+                        )
+                );
 
         TaskEntity task = new TaskEntity(
                 user,

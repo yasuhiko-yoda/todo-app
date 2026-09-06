@@ -6,6 +6,7 @@ import com.yodayasu.backend.entity.TaskEntity;
 import com.yodayasu.backend.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,11 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponse store(@Valid @RequestBody TaskForm form) {
-        return taskService.create(form);
+    public TaskResponse store(@Valid @RequestBody TaskForm form, Authentication authentication) {
+        return taskService.create(
+                form,
+                authentication.getName()
+        );
     }
 
     @GetMapping("/{task_id}")
