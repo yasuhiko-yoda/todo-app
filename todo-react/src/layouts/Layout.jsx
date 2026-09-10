@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Header } from "./Header";
+import { fetchAuth } from "../api/auth";
 
 export const Layout = () => {
   const [auth, setAuth] = useState({
@@ -15,15 +16,16 @@ export const Layout = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/auth/status", {
-          credentials: "include",
-        });
+        // const response = await fetch("http://localhost:8080/api/auth/status", {
+        //   credentials: "include",
+        // });
 
-        if (!response.ok) {
-          throw new Error("認証状態を取得できませんでした。");
-        }
+        // if (!response.ok) {
+        //   throw new Error("認証状態を取得できませんでした。");
+        // }
 
-        const data = await response.json();
+        // const data = await response.json();
+        const data  = await fetchAuth();
         setAuth(data);
       } catch (error) {
         console.error(error);

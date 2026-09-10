@@ -1,20 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../layouts/Header";
 import { Button } from "../components/common/Button";
-
+import { fetchAuth } from "../api/auth";
 
 export const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [auth, setAuth] = useState({
+    authenticated: false,
+    username: "",
+    isAdmin: false,
+  });
   const navigate = useNavigate();
 
   const handleShowPassword = (event) => {
     event.preventDefault();
     setShowPassword(!showPassword);
-    console.log(showPassword);
-  }
+  };
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const data = await fetchAuth();
+
+        if (data.authenticated) {
+          navigate("/tasks");
+          return;
+        }
+        setAuth(data);
+      } catch (error) {
+        console.error(error);
+        setAuth({
+          authenticated: false,
+          username: "",
+          isAdmin: false,
+        });
+      }
+    };
+
+    fetchAuthStatus();
+  }, [navigate]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,11 +70,9 @@ export const LoginPage = () => {
     }
   };
 
-
-
   return (
     <div>
-      <h1>Todoアプリ</h1>
+      <Header auth={auth}/>
       <h2>ログインページ</h2>
 
       <form onSubmit={handleLogin}>
