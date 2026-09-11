@@ -1,37 +1,35 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/common/Button";
-
-  
+import "./Header.css";
 
 export const Header = ({ auth, onLogout }) => {
   return (
     <header>
       <div className="header-inner">
         <h1>Todoアプリ</h1>
-		<nav>
-            <ul>
-              <li>
-                <Link to="/tasks">タスク一覧</Link>
-              </li>
-            </ul>
 
-            {auth.authenticated && (
-              <form onSubmit={onLogout}>
-                <p>
-                  <span>{auth.username}</span> ログイン中
-                </p>
-                <Button
-                  btnColor="white"
-                  btnBgColor="red"
-                  type="submit"
-                  size="medium"
-                  btnName="ログアウト"
-                />
-              </form>
-            )}
-          </nav>
+        {auth.authenticated && (
+          <div className="header-actions">
+            <nav aria-label="メインメニュー">
+              <Link to="/tasks">タスク一覧</Link>
+            </nav>
+
+            <form onSubmit={onLogout}>
+              <p className="login-user">
+                <span className="user-name">{auth.username}</span>
+                <span className="login-status"> ログイン中</span>
+              </p>
+
+              <Button
+                type="submit"
+                size="medium"
+                variant="secondary"
+                btnName="ログアウト"
+              />
+            </form>
+          </div>
+        )}
       </div>
     </header>
   );
 };
-

@@ -34,12 +34,6 @@ export async function fetchTasks() {
     credentials: "include",
   });
   return handleResponse(response, "タスク一覧の取得に失敗しました。");
-
-  // if (!response.ok) {
-  //   throw new Error("タスク一覧の取得に失敗しました。");
-  // }
-
-  // return response.json();
 }
 
 export const fetchTask = async (taskId) => {
@@ -48,11 +42,6 @@ export const fetchTask = async (taskId) => {
     credentials: "include",
   });
 
-  // if (!response.ok) {
-  //   const error = new Error("タスクの取得に失敗しました。");
-  //   error.status = response.status;
-  //   throw error;
-  // }
 
   return handleResponse(response, "タスクの取得に失敗しました。");
 };
@@ -67,11 +56,6 @@ export const createTask = async (taskData) => {
     body: JSON.stringify(taskData),
   });
 
-  // if (!response.ok) {
-  //   const error = new Error("タスクの登録に失敗しました。");
-  //   error.status = response.status;
-  //   throw error;
-  // }
 
   return handleResponse(response, "タスクの登録に失敗しました。");
 }
@@ -86,11 +70,6 @@ export const updateTask = async (taskId, taskData) => {
     body: JSON.stringify(taskData),
   });
 
-  // if (!response.ok) {
-  //   const error = new Error("タスクの更新に失敗しました。");
-  //   error.status = response.status;
-  //   throw error;
-  // }
 
   return handleResponse(response, "タスクの更新に失敗しました。");
 };
@@ -100,11 +79,7 @@ export const deleteTask = async (taskId) => {
     method: "DELETE",
     credentials: "include",
   });
-  // if (!response.ok) {
-  //   const error = new Error("タスクの削除に失敗しました。");
-  //   error.status = response.status;
-  //   throw error;
-  // }
+
   return handleResponse(response, "タスクの削除に失敗しました。");
 
 }

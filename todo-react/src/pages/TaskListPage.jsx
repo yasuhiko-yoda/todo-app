@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components/common/Button";
+import { TaskForm } from "../components/task/TaskForm";
 import { createTask, deleteTask, fetchTasks, updateTask } from "../api/taskApi";
 import "./common.css";
+import "./TaskListPage.css"
 
 export const TaskListPage = () => {
   const location = useLocation();
@@ -80,7 +82,7 @@ export const TaskListPage = () => {
       if (isConfirmed) {
         await deleteTask(taskId);
       }
-      
+
       await loadTasks();
     } catch (error) {
       console.error(error);
@@ -118,7 +120,7 @@ export const TaskListPage = () => {
         setMessage(error.message);
       }
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   };
 
@@ -132,67 +134,64 @@ export const TaskListPage = () => {
 
   return (
     <div>
-      <h2>タスク一覧</h2>
+      <section className="section">
+        <h2>タスク一覧</h2>
+        <p className="app-description">タスク一覧です。</p>
+        <p>編集・完了・削除を行うことができます。</p>
 
-      {message && <p>{message}</p>}
+        {message && <p>{message}</p>}
 
-      {tasks.length === 0 ? (
-        <p>登録されているタスクはありません。</p>
-      ) : (
-        <ul className="task-list">
-          {tasks.map((task) => (
-            <li key={task.taskId}>
-              <span className={task.completed ? "completed" : ""}>
-                {task.taskContent}
-              </span>
+        {tasks.length === 0 ? (
+          <p>登録されているタスクはありません。</p>
+        ) : (
+          <ul className="task-list">
+            {tasks.map((task) => (
+              <li key={task.taskId}>
+                <span className={task.completed ? "completed" : ""}>
+                  {task.taskContent}
+                </span>
 
-              <div>
-                <Link to={`/tasks/${task.taskId}`}>編集</Link>
+                <div className="list-button-area">
+                  <Link
+                    to={`/tasks/${task.taskId}`}
+                    className="link-button edit-link button--secondary button--min"
+                  >
+                    編集
+                  </Link>
 
-                <Button
-                  btnColor="white"
-                  btnBgColor={task.completed ? "gray" : "red"}
-                  type="button"
-                  size="medium"
-                  btnName={task.completed ? "未完了に戻す" : "完了"}
-                  onClick={() => handleComplete(task)}
-                />
+                  <Button
+                    type="button"
+                    size="min"
+                    variant={task.completed ? "restore" : "complete"}
+                    btnName={task.completed ? "戻す" : "完了"}
+                    onClick={() => handleComplete(task)}
+                  />
 
-                <Button
-                  btnColor="white"
-                  btnBgColor="red"
-                  type="button"
-                  size="medium"
-                  btnName="削除"
-                  onClick={() => handleDelete(task.taskId)}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <h2>タスク登録</h2>
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="taskContent">タスク内容</label>
-        <input
-          id="taskContent"
-          name="taskContent"
-          type="text"
-          value={taskContent}
-          onChange={updateForm}
-          placeholder="タスクを登録してください"
-        />
-
-        <Button
-          btnColor="white"
-          btnBgColor="red"
-          btnName={submitting ? "登録中..." : "登録する"}
-          disabled={submitting}
+                  <Button
+                    type="button"
+                    size="min"
+                    variant="danger"
+                    btnName="削除"
+                    onClick={() => handleDelete(task.taskId)}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+      <section className="section task-registration">
+        <h2>タスク登録</h2>
+        <p className="app-description">タスクを登録してください。</p>
+        <TaskForm
           size="medium"
+          taskContent={taskContent}
+          onTaskContentChange={updateForm}
+          onSubmit={handleSubmit}
+          buttonName={submitting ? "登録中" : "登録する"}
+          disabled={submitting}
         />
-      </form>
+      </section>
     </div>
   );
 };

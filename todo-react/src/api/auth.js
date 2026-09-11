@@ -11,5 +11,4 @@ export const fetchAuth = async () => {
 
   return await response.json();
 
-//   const data = await response.json();
 };

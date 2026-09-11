@@ -16,15 +16,6 @@ export const Layout = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        // const response = await fetch("http://localhost:8080/api/auth/status", {
-        //   credentials: "include",
-        // });
-
-        // if (!response.ok) {
-        //   throw new Error("認証状態を取得できませんでした。");
-        // }
-
-        // const data = await response.json();
         const data  = await fetchAuth();
         setAuth(data);
       } catch (error) {
@@ -80,7 +71,9 @@ export const Layout = () => {
       <Header auth={auth} onLogout={handleLogout} />
 
       <main>
-        <Outlet />
+        <div className="inner">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

@@ -1,0 +1,77 @@
+.button {
+  display: inline-block;
+  padding: 3px 10px;
+  line-height: 1.4;
+  font-size: 14px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button--primary {
+  color: #fff;
+  background-color: #d96b00;
+  border-color: #d96b00;
+}
+
+.button--secondary {
+  color: #b85c00;
+  background-color: #fff;
+  border-color: #d96b00;
+}
+
+.button--complete {
+  color: #fff;
+  background-color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+/* 未完了に戻す */
+.button--restore {
+  color: #555;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.button--restore:hover {
+  color: #333;
+  background-color: #eee;
+  border-color: #666;
+}
+
+.button--danger {
+  color: #fff;
+  background-color: #c62828;
+  border-color: #c62828;
+}
+
+.button--min {
+  width: 60px;
+}
+
+.button--medium {
+  width: 130px;
+}
+
+.button--large {
+  width: 180px;
+}
+
+.button--max {
+  width: 100%;
+}
+
+.button:disabled {
+  color: #777;
+  background-color: #d6d6d6;
+  border-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+button:focus button:focus-visible {
+  outline: 3px solid #444;
+}

@@ -1,8 +1,9 @@
+import './Button.css';
 export const Button = ({
-  btnColor,
-  btnBgColor,
-  type,
-  size,
+  className = "",
+  type = "button",
+  size = "medium",
+  variant = "primary",
   btnName,
   onClick,
   disabled,
@@ -10,11 +11,8 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={size}
-      style={{
-        color: btnColor,
-        backgroundColor: btnBgColor,
-      }}
+      className={`button button--${variant} button--${size} ${className}`}
+      size={size}
       onClick={onClick}
       disabled={disabled}
     >
