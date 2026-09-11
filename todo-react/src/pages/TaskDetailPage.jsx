@@ -97,12 +97,6 @@ export const TaskDetailPage = () => {
           cancelTo={`/tasks`}
         />
 
-        {/* <Link
-          to="/tasks"
-          className="link-button edit-link button--primary button--medium"
-        >
-          キャンセル
-        </Link> */}
       </section>
     </div>
   );
