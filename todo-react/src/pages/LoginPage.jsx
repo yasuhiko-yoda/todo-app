@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../layouts/Header";
 import { Button } from "../components/common/Button";
 import { fetchAuth } from "../api/auth";
+import "./LoginPage.css";
 
 export const LoginPage = () => {
   const [userName, setUserName] = useState("");
@@ -72,50 +73,55 @@ export const LoginPage = () => {
 
   return (
     <div>
-      <Header auth={auth}/>
-      <h2>ログインページ</h2>
+      <Header auth={auth} />
+      <main>
+        <div className="inner">
+          <section className="section">
+            <h2>ログインページ</h2>
+            <p className="app-description">タスクを管理するアプリです。</p>
+            <p>ユーザー名とパスワードを入力してください。</p>
+            <form onSubmit={handleLogin} className="login-form">
+              <div className="login-content">
+                <p>
+                  <label htmlFor="username">ユーザー名</label>
+                </p>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={userName}
+                  onChange={(event) => setUserName(event.target.value)}
+                  required
+                />
+              </div>
+              <div className="login-content">
+                <p>
+                  <label htmlFor="password">パスワード</label>
+                </p>
+                <div className="password-area">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    required
+                  />
+                  <Button
+                    size="min"
+                    btnName={showPassword ? "隠す" : "見る"}
+                    onClick={handleShowPassword}
+                  />
+                </div>
+              </div>
 
-      <form onSubmit={handleLogin}>
-        <p>
-          <label htmlFor="username">ユーザー名：</label>
-          <input
-            id="username"
-            type="text"
-            value={userName}
-            onChange={(event) => setUserName(event.target.value)}
-            required
-          />
-        </p>
-
-        <p>
-          <label htmlFor="password">パスワード：</label>
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
-          />
-          <Button
-            btnColor="white"
-            btnBgColor="red"
-            type="button"
-            size="min"
-            btnName={showPassword ? "パスワードを隠す" : "パスワードを見る"}
-            onClick={handleShowPassword}
-          />
-        </p>
-
-        {errorMessage && <p>{errorMessage}</p>}
-
-        <Button
-          btnColor="white"
-          btnBgColor="red"
-          type="submit"
-          size="min"
-          btnName="ログイン"
-        />
-      </form>
+              {errorMessage && <p>{errorMessage}</p>}
+              <div className="button-wrapper">
+                <Button type="submit" size="max" btnName="ログイン" />
+              </div>
+            </form>
+          </section>
+        </div>
+      </main>
     </div>
   );
 };

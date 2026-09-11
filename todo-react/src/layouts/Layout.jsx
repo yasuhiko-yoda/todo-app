@@ -80,7 +80,9 @@ export const Layout = () => {
       <Header auth={auth} onLogout={handleLogout} />
 
       <main>
-        <Outlet />
+        <div className="inner">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

@@ -1,0 +1,32 @@
+.login-form {
+	max-width: 500px;
+	margin: 0 auto;
+}
+
+.login-form p {
+	margin-bottom: 0;
+}
+
+.login-content {
+	margin-bottom: 1rem;
+}
+
+.login-content input[type="text"],
+.login-content input[type="password"] {
+	width: 100%;
+}
+
+.login-content input[type="password"] {
+	padding-right: 75px;
+}
+
+.password-area {
+	position: relative;
+}
+
+.password-area .button {
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+}

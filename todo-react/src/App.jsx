@@ -5,7 +5,7 @@ import { TaskListPage } from "./pages/TaskListPage";
 import { TaskDetailPage } from "./pages/TaskDetailPage";
 import { LoginPage } from "./pages/LoginPage";
 import { NotFound } from "./pages/NotFound";
-import "./App.css"
+
 
 
 function App() {

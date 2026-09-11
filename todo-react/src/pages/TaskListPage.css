@@ -1,0 +1,21 @@
+.task-list li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #ccc;
+	padding: .5rem 0;
+}
+
+.list-button-area {
+	display: flex;
+	column-gap: 10px;
+}
+
+@media screen and (max-width: 767px) {
+	.task-list li {
+		flex-direction: column;
+		row-gap: 10px;
+		align-items: flex-start;
+	}
+}
+

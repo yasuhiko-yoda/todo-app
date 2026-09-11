@@ -1,0 +1,87 @@
+header {
+  margin-bottom: 15px;
+  color: #333;
+  background-color: #f5a623;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.header-inner h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-actions,
+.header-actions form {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-actions {
+  font-size: 14px;
+}
+
+.header-actions a {
+  color: #333;
+  font-weight: 600;
+}
+
+.login-user {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.user-name {
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 12px 15px;
+  }
+
+  .header-inner h1 {
+    font-size: 21px;
+    text-align: center;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .header-actions form {
+    gap: 8px;
+  }
+
+  .login-user {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-actions .button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-status {
+    display: none;
+  }
+}

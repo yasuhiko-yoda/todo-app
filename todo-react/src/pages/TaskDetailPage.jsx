@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Button } from "../components/common/Button";
-import { fetchTasks, updateTask } from "../api/taskApi";
+import {  useParams, useNavigate } from "react-router-dom";
+import { TaskForm } from "../components/task/TaskForm";
+import { fetchTask, updateTask } from "../api/taskApi";
 import "./common.css";
 
 export const TaskDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [tasks, setTasks] = useState([]);
   const [taskContent, setTaskContent] = useState("");
   const [completed, setCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -18,19 +17,15 @@ export const TaskDetailPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchTasks();
+        const task = await fetchTask(id);
 
-        setTasks(data);
-
-        const selectedTask = data.find((task) => String(task.taskId) === id);
-
-        if (!selectedTask) {
+        if (!task) {
           setMessage("指定されたタスクが見つかりません。");
           return;
         }
 
-        setTaskContent(selectedTask.taskContent);
-        setCompleted(selectedTask.completed);
+        setTaskContent(task.taskContent);
+        setCompleted(task.completed);
       } catch (error) {
         console.error(error);
         setMessage("タスク一覧の取得に失敗しました。");
@@ -74,10 +69,11 @@ export const TaskDetailPage = () => {
       } else {
         setMessage(error.message);
       }
-    }finally {
+    } finally {
       setSubmitting(false);
     }
   };
+
 
   if (loading) {
     return <p>タスクを読み込んでいます。</p>;
@@ -85,46 +81,30 @@ export const TaskDetailPage = () => {
 
   return (
     <div>
-      <h2>タスク一覧・編集</h2>
+      <section className="section">
+        <h2>タスク編集</h2>
 
-      {message && <p>{message}</p>}
+        {message && <p>{message}</p>}
+        <p className="app-description">タスク編集ページです。</p>
 
-      <ul className="task-list">
-        {tasks.map((task) => (
-          <li key={task.taskId}>
-            {String(task.taskId) === id ? (
-              <form onSubmit={handleSubmit}>
-                <label htmlFor={`task-${task.taskId}`}>タスク内容</label>
+        <p>タスクを編集してください。</p>
+        <TaskForm
+          taskContent={taskContent}
+          onTaskContentChange={(event) => setTaskContent(event.target.value)}
+          onSubmit={handleSubmit}
+          buttonName={submitting ? "更新中" : "更新"}
+          buttonVariant="secondary"
+          cancelTo={`/tasks`}
+        />
 
-                <input
-                  id={`task-${task.taskId}`}
-                  type="text"
-                  value={taskContent}
-                  onChange={(event) => setTaskContent(event.target.value)}
-                  required
-                />
-
-                <Button
-                  btnColor="white"
-                  btnBgColor="red"
-                  btnName={submitting ? "更新中..." : "更新する"}
-                  disabled={submitting}
-                  size="medium"
-                />
-
-                <Link to="/tasks">キャンセル</Link>
-              </form>
-            ) : (
-              <div>
-                <span className={task.completed ? "completed" : ""}>
-                  {task.taskContent}
-                </span>
-                <Link to={`/tasks/${task.taskId}`}>編集</Link>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+        {/* <Link
+          to="/tasks"
+          className="link-button edit-link button--primary button--medium"
+        >
+          キャンセル
+        </Link> */}
+      </section>
     </div>
   );
 };
+
