@@ -1,6 +1,7 @@
 package com.yodayasu.backend.config;
 
 import com.yodayasu.backend.service.AppUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -20,6 +21,8 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
     @Bean
     @Order(1)
     SecurityFilterChain securityFilterChain (
@@ -92,7 +95,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:5173")
+                List.of(frontendUrl)
         );
 
         configuration.setAllowedMethods(
@@ -100,7 +103,7 @@ public class SecurityConfig {
         );
 
         configuration.setAllowedHeaders(
-                List.of("Content-Type")
+                List.of("*")
         );
 
         configuration.setAllowCredentials(true);
