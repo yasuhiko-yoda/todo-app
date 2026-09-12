@@ -1,5 +1,5 @@
 import { Button } from "../common/Button";
-import { Link } from "react-router-dom";
+import { LinkButton } from "../common/LinkButton";
 import './TaskFrom.css'
 
 export const TaskForm = ({
@@ -33,12 +33,12 @@ export const TaskForm = ({
           disabled={disabled}
         />
         {cancelTo && (
-          <Link
+          <LinkButton 
             to={cancelTo}
-            className="link-button button--secondary button--medium"
-          >
-            キャンセル
-          </Link>
+            variant="secondary"
+            size="medium"
+            btnName="キャンセル"
+          />
         )}
       </div>
     </form>

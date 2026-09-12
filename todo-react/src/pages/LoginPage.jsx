@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../layouts/Header";
 import { Button } from "../components/common/Button";
-import { fetchAuth } from "../api/auth";
+import { fetchAuth, login } from "../api/auth";
 import "./LoginPage.css";
 
 export const LoginPage = () => {
@@ -50,21 +50,7 @@ export const LoginPage = () => {
     setErrorMessage("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          username: userName,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("ユーザー名またはパスワードが正しくありません。");
-      }
+      await login(userName, password);
       navigate("/tasks");
     } catch (error) {
       setErrorMessage(error.message);
@@ -107,6 +93,7 @@ export const LoginPage = () => {
                     required
                   />
                   <Button
+                    type="button"
                     size="min"
                     btnName={showPassword ? "隠す" : "見る"}
                     onClick={handleShowPassword}

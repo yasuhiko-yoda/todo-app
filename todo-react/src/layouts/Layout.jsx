@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Header } from "./Header";
-import { fetchAuth } from "../api/auth";
+import { fetchAuth, logout } from "../api/auth";
 
 export const Layout = () => {
   const [auth, setAuth] = useState({
@@ -37,14 +37,7 @@ export const Layout = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error("ログアウトに失敗しました。");
-      }
+      logout();
 
       setAuth({
         authenticated: false,

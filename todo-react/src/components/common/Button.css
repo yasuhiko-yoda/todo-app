@@ -1,12 +1,16 @@
 .button {
-  display: inline-block;
+  display: inline-flex;
   padding: 3px 10px;
   line-height: 1.4;
   font-size: 14px;
   border: 1px solid transparent;
   border-radius: 6px;
   font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .button--primary {
@@ -69,9 +73,11 @@
   cursor: not-allowed;
 }
 
-button:hover {
+.button:hover:not(:disabled) {
   opacity: 0.8;
 }
-button:focus button:focus-visible {
+
+.button:focus-visible {
   outline: 3px solid #444;
+  outline-offset: 2px;
 }
