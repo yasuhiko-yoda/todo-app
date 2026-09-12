@@ -10,6 +10,7 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [auth, setAuth] = useState({
     authenticated: false,
     username: "",
@@ -47,13 +48,16 @@ export const LoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    if (submitting) return;
     setErrorMessage("");
-
+    setSubmitting(true);
     try {
       await login(userName, password);
       navigate("/tasks");
     } catch (error) {
       setErrorMessage(error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -103,7 +107,7 @@ export const LoginPage = () => {
 
               {errorMessage && <p>{errorMessage}</p>}
               <div className="button-wrapper">
-                <Button type="submit" size="max" btnName="ログイン" />
+                <Button type="submit" size="max" btnName={submitting? "ログイン中" : "ログイン"} disabled={submitting}/>
               </div>
             </form>
           </section>
