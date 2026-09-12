@@ -1,21 +1,19 @@
-import './Button.css';
-export const Button = ({
+import { Link } from "react-router-dom";
+import "./Button.css";
+
+export const LinkButton = ({
   className = "",
-  type = "button",
+  to,
   size = "medium",
   variant = "primary",
   btnName,
-  onClick,
-  disabled,
 }) => {
   return (
-    <button
-      type={type}
+    <Link
+      to={to}
       className={`button button--${variant} button--${size} ${className}`}
-      onClick={onClick}
-      disabled={disabled}
     >
       {btnName}
-    </button>
+    </Link>
   );
 };

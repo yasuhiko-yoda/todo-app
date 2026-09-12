@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { fetchAuth } from "../api/auth";
+import { LinkButton } from "../components/common/LinkButton";
 import "./NotFound.css"
 
 export const NotFound = () => {
@@ -31,12 +32,14 @@ export const NotFound = () => {
 
         <div className="not-found button-wrapper">
           {!loading && (
-            <Link
+            <LinkButton
               to={authenticated ? "/tasks" : "/login"}
-              className="link-button edit-link button--primary button--large"
-            >
-              {authenticated ? "タスク一覧に戻る" : "ログイン画面に戻る"}
-            </Link>
+              size="large"
+              variant="primary"
+              btnName={
+                authenticated ? "タスク一覧に戻る" : "ログイン画面に戻る"
+              }
+            />
           )}
         </div>
       </div>

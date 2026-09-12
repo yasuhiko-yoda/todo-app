@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { LinkButton } from '../components/common/LinkButton'
 import { Button } from "../components/common/Button";
 import { TaskForm } from "../components/task/TaskForm";
 import { createTask, deleteTask, fetchTasks, updateTask } from "../api/taskApi";
@@ -152,12 +153,12 @@ export const TaskListPage = () => {
                 </span>
 
                 <div className="list-button-area">
-                  <Link
+                  <LinkButton
+                    variant="secondary"
+                    size="min"
                     to={`/tasks/${task.taskId}`}
-                    className="link-button edit-link button--secondary button--min"
-                  >
-                    編集
-                  </Link>
+                    btnName="編集"
+                  />
 
                   <Button
                     type="button"
