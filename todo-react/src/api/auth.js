@@ -46,6 +46,7 @@ export const login = async (username, password) => {
 };
 
 export const logout = async () => {
+  await fetchCsrfToken();
   const response = await fetch(`${API_BASE_URL}/logout`, {
     method: "POST",
     credentials: "include",

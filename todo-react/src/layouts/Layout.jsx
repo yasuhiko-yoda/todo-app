@@ -37,7 +37,7 @@ export const Layout = () => {
     event.preventDefault();
 
     try {
-      logout();
+      await logout();
 
       setAuth({
         authenticated: false,
@@ -45,9 +45,18 @@ export const Layout = () => {
         isAdmin: false,
       });
 
-      navigate("/login");
+      navigate("/login", {replace: true});
     } catch (error) {
       console.error(error);
+      if (error.status === 401 || error.status === 403) {
+        setAuth({
+          authenticated: false,
+          username: "",
+          isAdmin: false,
+        });
+
+        navigate("/login", { replace: true });
+      }
     }
   };
 
