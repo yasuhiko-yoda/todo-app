@@ -53,8 +53,6 @@ Spring Securityによる認証、CSRF対策、ユーザー別のアクセス制�
 
 ## 実装機能
 
-## 実装機能
-
 ### Backend API
 
 - [x] ログイン
