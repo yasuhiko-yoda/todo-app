@@ -1,4 +1,4 @@
-import {getCsrfToken} from "./getCookie.js";
+import {getCsrfToken} from "./csrf.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const handleResponse = async (response, defaultMessage) => {
@@ -53,7 +53,7 @@ export const createTask = async (taskData) => {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-XSRF-TOKEN": getCsrfToken(),
+      "X-CSRF-TOKEN": getCsrfToken(),
     },
     body: JSON.stringify(taskData),
   });
@@ -68,7 +68,7 @@ export const updateTask = async (taskId, taskData) => {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      "X-XSRF-TOKEN": getCsrfToken(),
+      "X-CSRF-TOKEN": getCsrfToken(),
     },
     body: JSON.stringify(taskData),
   });
@@ -82,7 +82,7 @@ export const deleteTask = async (taskId) => {
     method: "DELETE",
     credentials: "include",
     headers: {
-      "X-XSRF-TOKEN": getCsrfToken(),
+      "X-CSRF-TOKEN": getCsrfToken(),
     }
   });
 

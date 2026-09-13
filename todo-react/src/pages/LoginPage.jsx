@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../layouts/Header";
 import { Button } from "../components/common/Button";
 import { fetchAuth, login } from "../api/auth";
+import { fetchCsrfToken } from "../api/csrf"
 import "./LoginPage.css";
 
 export const LoginPage = () => {
@@ -11,6 +12,7 @@ export const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useState({
     authenticated: false,
     username: "",
@@ -26,7 +28,12 @@ export const LoginPage = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
+        setLoading(true);
         const data = await fetchAuth();
+
+        // 認証状態を確認した後、順番にCSRFトークンを取得する
+        await fetchCsrfToken();
+
 
         if (data.authenticated) {
           navigate("/tasks");
@@ -40,6 +47,8 @@ export const LoginPage = () => {
           username: "",
           isAdmin: false,
         });
+      } finally {
+         setLoading(false);
       }
     };
 
@@ -52,6 +61,7 @@ export const LoginPage = () => {
     setErrorMessage("");
     setSubmitting(true);
     try {
+
       await login(userName, password);
       navigate("/tasks");
     } catch (error) {
@@ -107,7 +117,13 @@ export const LoginPage = () => {
 
               {errorMessage && <p>{errorMessage}</p>}
               <div className="button-wrapper">
-                <Button type="submit" size="max" btnName={submitting? "ログイン中" : "ログイン"} disabled={submitting}/>
+                <Button type="submit" size="max" btnName={
+                  loading
+                      ? "準備中"
+                      : submitting
+                          ? "ログイン中"
+                          : "ログイン"
+                } disabled={submitting || loading}/>
               </div>
             </form>
           </section>
