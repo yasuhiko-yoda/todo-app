@@ -21,7 +21,7 @@ public class TaskController {
     }
 
     @GetMapping
-    List<TaskResponse> index() { return taskService.findAllTasks();}
+    List<TaskResponse> index(Authentication authentication) { return taskService.findAllTasks(authentication.getName());}
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,18 +33,19 @@ public class TaskController {
     }
 
     @GetMapping("/{task_id}")
-    public TaskResponse getTaskById(@PathVariable("task_id") Long taskId) {
-        return taskService.findTask(taskId);
+    public TaskResponse getTaskById(@PathVariable("task_id") Long taskId, Authentication authentication) {
+        return taskService.findTask(taskId, authentication.getName());
     }
 
     @PutMapping("/{task_id}")
-    public TaskResponse update(@PathVariable("task_id") Long taskId, @Valid @RequestBody TaskForm form) {
-        return taskService.update(taskId, form);
+    public TaskResponse update(@PathVariable("task_id") Long taskId, @Valid @RequestBody TaskForm form, Authentication authentication) {
+        return taskService.update(taskId, form, authentication.getName());
     }
 
     @DeleteMapping("/{task_id}")
-    public void delete(@PathVariable("task_id") Long taskId) {
-        taskService.delete(taskId);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("task_id") Long taskId, Authentication authentication) {
+        taskService.delete(taskId, authentication.getName());
     }
 
 
