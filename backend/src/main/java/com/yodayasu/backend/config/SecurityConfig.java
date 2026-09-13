@@ -35,18 +35,16 @@ public class SecurityConfig {
                 )
                 .securityMatcher("/api/**")
                 .authenticationProvider(authenticationProvider)
-                .csrf(csrf -> csrf.disable())
-//                .csrf(csrf -> csrf
-//                        .ignoringRequestMatchers(
-//                                "/api/login",
-//                                "/api/logout",
-//                                "/api/tasks",
-//                                "/api/tasks/**"
-//                        )
-//                )
+                .csrf(csrf -> csrf.spa())
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/login")
-                                .permitAll().requestMatchers(HttpMethod.GET, "/api/auth/status").permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/login"
+                        ).permitAll()
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/auth/status")
+                                .permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/api/tasks").hasAuthority("ADMIN")
 //                        .requestMatchers(HttpMethod.GET, "/api/tasks/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
