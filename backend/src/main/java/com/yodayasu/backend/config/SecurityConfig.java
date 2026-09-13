@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +36,7 @@ public class SecurityConfig {
                 )
                 .securityMatcher("/api/**")
                 .authenticationProvider(authenticationProvider)
-                .csrf(csrf -> csrf.spa())
+                .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests( auth -> auth
                         .requestMatchers(
                                 HttpMethod.POST,
@@ -43,8 +44,9 @@ public class SecurityConfig {
                         ).permitAll()
                                 .requestMatchers(
                                         HttpMethod.GET,
-                                        "/api/auth/status")
-                                .permitAll()
+                                        "/api/auth/status",
+                                        "/api/csrf"
+                                ).permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/api/tasks").hasAuthority("ADMIN")
 //                        .requestMatchers(HttpMethod.GET, "/api/tasks/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()

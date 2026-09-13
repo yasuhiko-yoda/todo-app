@@ -1,4 +1,4 @@
-import {getCsrfToken} from "./getCookie.js";
+import { getCsrfToken, fetchCsrfToken } from "./csrf.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const handleResponse = async (response, errorMessage) => {
@@ -24,7 +24,7 @@ export const login = async (username, password) => {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "X-XSRF-TOKEN": getCsrfToken(),
+      "X-CSRF-TOKEN": getCsrfToken(),
     },
     credentials: "include",
     body: formData,
@@ -34,7 +34,15 @@ export const login = async (username, password) => {
     throw new Error("ユーザー名またはパスワードが正しくありません。");
   }
 
-  return handleResponse(response, "ログイン処理に失敗しました。");
+  const result = await handleResponse(
+      response,
+      "ログイン処理に失敗しました。"
+  );
+
+  // ログイン成功時に以前のトークンが破棄されるため再取得
+  await fetchCsrfToken();
+
+  return result;
 };
 
 export const logout = async () => {
@@ -42,7 +50,7 @@ export const logout = async () => {
     method: "POST",
     credentials: "include",
     headers: {
-      "X-XSRF-TOKEN": getCsrfToken(),
+      "X-CSRF-TOKEN": getCsrfToken(),
     }
   });
 
