@@ -1,3 +1,4 @@
+import {getCsrfToken} from "./getCookie.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const handleResponse = async (response, errorMessage) => {
@@ -23,6 +24,7 @@ export const login = async (username, password) => {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "X-XSRF-TOKEN": getCsrfToken(),
     },
     credentials: "include",
     body: formData,
@@ -39,6 +41,9 @@ export const logout = async () => {
   const response = await fetch(`${API_BASE_URL}/logout`, {
     method: "POST",
     credentials: "include",
+    headers: {
+      "X-XSRF-TOKEN": getCsrfToken(),
+    }
   });
 
   return handleResponse(response, "ログアウトに失敗しました。");

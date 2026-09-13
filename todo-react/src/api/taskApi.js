@@ -1,3 +1,4 @@
+import {getCsrfToken} from "./getCookie.js";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const handleResponse = async (response, defaultMessage) => {
@@ -52,6 +53,7 @@ export const createTask = async (taskData) => {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "X-XSRF-TOKEN": getCsrfToken(),
     },
     body: JSON.stringify(taskData),
   });
@@ -66,6 +68,7 @@ export const updateTask = async (taskId, taskData) => {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "X-XSRF-TOKEN": getCsrfToken(),
     },
     body: JSON.stringify(taskData),
   });
@@ -78,6 +81,9 @@ export const deleteTask = async (taskId) => {
   const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
     method: "DELETE",
     credentials: "include",
+    headers: {
+      "X-XSRF-TOKEN": getCsrfToken(),
+    }
   });
 
   return handleResponse(response, "タスクの削除に失敗しました。");
