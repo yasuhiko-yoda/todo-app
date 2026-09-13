@@ -33,29 +33,31 @@ public class TaskService {
         );
     }
 
-//    public  List<TaskEntity> findCompletedFalseTasks() {
-//        return  taskRepository.findByCompletedFalseOrderByTaskIdDesc();
-//    }
 
-    public List<TaskResponse> findAllTasks() {
-        return taskRepository.findAll()
+    private TaskEntity findOwnedTask(Long taskId, String username) {
+        return taskRepository
+                .findByTaskIdAndUserUsername(taskId, username)
+                .orElseThrow(() ->
+                        new TaskNotFoundException(
+                                "指定されたタスクが見つかりません"
+                        )
+                );
+    }
+
+    public List<TaskResponse> findAllTasks(String username) {
+        return taskRepository
+                .findByUserUsernameOrderByTaskIdDesc(username)
                 .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
-    public TaskResponse findTask(Long id) {
-        TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(()->
-                        new TaskNotFoundException("指定されたタスクが見つかりません"));
-//        return taskRepository.findById(id)
-//                .orElseThrow();
+    public TaskResponse findTask(Long taskId, String username) {
+        TaskEntity task = findOwnedTask(taskId, username);
         return toResponse(task);
     }
 
-    public  TaskResponse create(TaskForm form, String username) {
-//        UserEntity user = userRepository.findById()
-//                .orElseThrow();
+    public TaskResponse create(TaskForm form, String username) {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
@@ -72,24 +74,22 @@ public class TaskService {
         return toResponse(savedTask);
     }
 
-    public TaskResponse update(Long id,TaskForm form) {
-        TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(()->
-                        new TaskNotFoundException("指定されたタスクが見つかりません"));
+    public TaskResponse update(
+            Long taskId,
+            TaskForm form,
+            String username
+    ) {
+        TaskEntity task = findOwnedTask(taskId, username);
 
         task.setTaskContent(form.getTaskContent());
         task.setCompleted(form.isCompleted());
 
         TaskEntity updatedTask = taskRepository.save(task);
-
         return toResponse(updatedTask);
     }
 
-    public void delete(Long id) {
-        TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(()->
-                        new TaskNotFoundException("指定されたタスクが見つかりません"));
-
+    public void delete(Long taskId, String username) {
+        TaskEntity task = findOwnedTask(taskId, username);
         taskRepository.delete(task);
     }
 
