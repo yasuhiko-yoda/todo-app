@@ -47,6 +47,10 @@ export const TaskListPage = () => {
 
         if (error.status === 401 || error.status === 403) {
           setAccessDenied(true);
+          navigate("/login", {
+            replace: true,
+          });
+
         } else {
           setMessage("タスク一覧の取得に失敗しました。");
         }
