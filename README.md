@@ -1,4 +1,7 @@
-## Todo App v1.0.0
+## Todo App
+
+**Version:** v1.0.0  
+**Release:** 2026-09-14
 
 Todoアプリの初回リリースです。
 
