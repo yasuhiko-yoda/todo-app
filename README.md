@@ -1,9 +1,7 @@
-## Todo App
+# Todo App
 
 **Version:** v1.0.0  
 **Release:** 2026-09-14
-
-Todoアプリの初回リリースです。
 
 ReactとSpring Bootを使用して作成したTodoアプリです。
 
@@ -13,7 +11,20 @@ ReactとSpring Bootを使用して作成したTodoアプリです。
 
 Spring Securityによる認証、CSRF対策、ユーザー別のアクセス制御を実装し、Vercel・Render・Neonを使用して公開しています。
 
-### 主な機能
+## 公開URL
+
+- アプリケーション：[https://todo-app-xi-three-76.vercel.app/login](https://todo-app-xi-three-76.vercel.app/login)
+- バックエンド：Render
+- データベース：Neon PostgreSQL
+
+### テストアカウント
+
+- ユーザー名：`test-user`
+- パスワード：`etudes`
+
+> Renderの無料プランでは、一定時間アクセスがない場合、最初の表示に時間がかかることがあります。
+
+## 主な機能
 
 - ユーザー認証
 - ログイン・ログアウト
@@ -23,13 +34,27 @@ Spring Securityによる認証、CSRF対策、ユーザー別のアクセス制�
 - CSRF対策
 - レスポンシブ対応
 
-## 公開URL
+## 画面イメージ
 
-- アプリケーション：[Todo App](https://todo-app-xi-three-76.vercel.app/login)
-- バックエンド：Render
-- データベース：Neon PostgreSQL
+### ログイン画面
 
-> Renderの無料プランでは、一定時間アクセスがない場合、最初の表示に時間がかかることがあります。
+![ログイン画面](./img/todo-login.png)
+
+ユーザー名とパスワードによる認証機能を実装しています。  
+ログインボタンは、通信中の連打を防止するようにしています。
+
+### タスク一覧画面
+
+![タスク一覧画面](./img/todo-list.png)
+
+ログイン後、すぐに自分のタスク一覧を確認できるようにしています。  
+一覧画面からタスクの登録・完了状態変更・削除・編集画面への移動ができます。
+
+### 編集画面
+
+![編集画面](./img/todo-update.png)
+
+選択したタスクのみを編集できるシンプルな画面構成にしています。
 
 ## 使用技術
 
@@ -57,7 +82,6 @@ Spring Securityによる認証、CSRF対策、ユーザー別のアクセス制�
 - Vercel（フロントエンド）
 - Render（バックエンド）
 - Neon（PostgreSQL）
-- GitHub
 
 ## 開発環境
 
@@ -122,7 +146,7 @@ http://localhost:8080
 
 ### 3. フロントエンドの環境変数を設定
 
-`frontend`直下に`.env.local`を作成します。
+`todo-react`直下に`.env.local`を作成します。
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080/api
@@ -135,7 +159,7 @@ VITE_API_BASE_URL=http://localhost:8080/api
 別のターミナルで次を実行します。
 
 ```bash
-cd frontend
+cd todo-react
 npm install
 npm run dev
 ```
@@ -166,7 +190,7 @@ DB_PASSWORD
 FRONTEND_URL
 ```
 
-データベースの接続情報やパスワードなどの秘密情報は、GitHubには保存せず、各サービスの環境変数で管理しています。
+データベースの接続情報やパスワードなどの秘密情報はGitHubには保存せず、各サービスの環境変数で管理しています。
 
 ## 追加実装・発展的な取り組み
 
@@ -187,7 +211,9 @@ FRONTEND_URL
 
 各Todoはユーザー情報と紐づけて保存しています。
 
-Todoの一覧取得・詳細取得・登録・編集・削除では、Spring Securityから取得した認証ユーザー名を使用しています。これにより、ログインユーザーは自分が所有するTodoのみを表示・操作できます。
+Todoの一覧取得・詳細取得・登録・編集・削除では、Spring Securityから取得した認証ユーザー名を使用しています。
+
+これにより、ログインユーザーは自分が所有するTodoのみを表示・操作できます。
 
 他のユーザーが所有するTodoのIDを指定した場合も、そのTodoを取得・更新・削除できないようにしています。
 
@@ -204,7 +230,28 @@ Todoの一覧取得・詳細取得・登録・編集・削除では、Spring Sec
 - ユーザーごとのTodoアクセス制御
 - 環境変数による秘密情報の管理
 
-## 開発の経緯
+## ER図
+
+![ER図](./img/er-diagram.png)
+
+`users`テーブルと`tasks`テーブルを1対多の関係で構成し、各Todoを所有するユーザーを`user_id`で紐づけています。
+
+## API一覧
+
+| HTTPメソッド | URL | 内容 |
+| --- | --- | --- |
+| POST | `/api/login` | ログイン |
+| POST | `/api/logout` | ログアウト |
+| GET | `/api/auth/status` | 認証状態取得 |
+| GET | `/api/tasks` | Todo一覧取得 |
+| POST | `/api/tasks` | Todo登録 |
+| GET | `/api/tasks/{id}` | Todo詳細取得 |
+| PUT | `/api/tasks/{id}` | Todo更新・完了状態変更 |
+| DELETE | `/api/tasks/{id}` | Todo削除 |
+
+## 開発背景・目的
+
+Webアプリケーション開発の学習成果として、ReactとSpring Bootを使用したTodoアプリを作成しました。
 
 最初にTodoの登録・一覧表示・編集・削除・完了状態変更を行う基本的なCRUD機能を実装しました。
 
@@ -219,3 +266,15 @@ Todoの一覧取得・詳細取得・登録・編集・削除では、Spring Sec
 7. Vercel・Render・Neonを使用したアプリケーションの公開
 
 基本的なCRUD処理だけでなく、認証・認可、セキュリティ、本番環境へのデプロイまでを含めて、Webアプリケーション開発の一連の流れを経験することを目的としています。
+
+## 今後の拡張構想
+
+- 絞り込み機能
+- 一括削除
+- タスク期限の設定
+- 期限切れタスクの通知
+- ユーザー登録
+- パスワード変更
+- ADMIN用ユーザー管理
+- ログイン失敗回数制限
+- reCAPTCHAなどのボット対策
